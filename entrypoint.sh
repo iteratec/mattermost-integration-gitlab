@@ -38,17 +38,11 @@ for POSSIBLE_EVENT in "${NEGATIVE_EVENTS[@]}"; do
 	fi
 done
 
-if [ -z "${MATTERMOST_WEBHOOK_URL}" ]; then
-	echo "Missing Mattermost WEBHOOK url !" >&2
-	exit 1
-fi
-
-
 if [ ! -x "/usr/local/bin/mattermost_gitlab" ]; then
 	echo "Missing application executable !" >&2
 	exit 1
 fi
 
 echo "Starting: "
-echo "/usr/local/bin/mattermost_gitlab ${PLUGIN_ARGS} '${MATTERMOST_WEBHOOK_URL}'"
-/usr/local/bin/mattermost_gitlab ${PLUGIN_ARGS} "${MATTERMOST_WEBHOOK_URL}"
+echo "/usr/local/bin/mattermost_gitlab ${PLUGIN_ARGS}"
+/usr/local/bin/mattermost_gitlab ${PLUGIN_ARGS}

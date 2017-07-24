@@ -46,13 +46,12 @@ class BaseTest(FlaskMixin):
 class ServerTestMixin(MockHttpServerMixin, FlaskMixin):
 
     port = get_available_port()
-    url = '/new_event'
+    url = "/new_event?mattermost_webhook_url=http://127.0.0.1:{}".format(port)
 
     def setUp(self):
         super(ServerTestMixin, self).setUp()
 
-        mattermost_webhook_url = "http://127.0.0.1:{}".format(self.port)
-        _, _, options = server.parse_args([mattermost_webhook_url, "--tag", "--push"])
+        _, _, options = server.parse_args(["--tag", "--push"])
         server.app.config.update(options)
 
     def post(self, name):
@@ -153,7 +152,8 @@ class PushTest(ServerTestMixin):
 
 class BuildTest(ServerTestMixin):
 
-    url = "/new_ci_event"
+    port = get_available_port()
+    url = "/new_ci_event?mattermost_webhook_url=http://127.0.0.1:{}".format(port)
 
     def test_create_build(self):
         self.assertResponse("gitlab/build/create_build_1")
